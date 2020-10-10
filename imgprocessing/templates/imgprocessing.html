@@ -1,0 +1,39 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+제목 : {{ctx.title}} <br>
+
+<form  action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file1" accept="images/*" capture="camera">
+    <input type="submit" value="전송">
+</form>   
+
+<button type=button value="emboss"> 엠보싱 </button> <br>
+<button type=button value="sharp"> 샤프닝 </button> <br>
+커널크기<input type=text id=size size=3><button type=button  value="blur"> 블러 </button> <br>
+
+<img id=result widtt=300>
+
+<script>
+    
+    $("#result").attr("src","/static/result.jpg?" + new Date());
+    
+    $("button").click( function() {
+            url="/imgprocess?method=" + $(this).val();
+        
+        
+            if ( $(this).val() == "blur" ) 
+                url += "&size=" + $("#size").val();
+        
+            console.log(url);
+            $.get(url,
+                 function(data, status) {
+                    $("#result").attr("src","/static/result.jpg?" + new Date());
+            });
+    });
+
+</script>
+        
+        
